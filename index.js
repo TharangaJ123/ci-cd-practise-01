@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-  res.status(200).json({ message: 'CI/CD Pipeline eka wada mcn!' });
+  res.status(200).json({ message: 'CI/CD Pipeline is working!' });
 });
 
 if (require.main === module) {
