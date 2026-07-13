@@ -1,0 +1,33 @@
+name: Weekly GitHub Report
+
+on:
+  schedule:
+    # Hama iridama ra 12.00 ta run wenna (cron format)
+    - cron: '0 0 * * 0' 
+  workflow_dispatch: # Puluwan welawaka manual run karanna option eka
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+
+    - name: Install dependencies
+      run: npm install @octokit/rest
+
+    - name: Run Data Script
+      run: node getData.js
+      env:
+        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+    - name: Upload Report as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: historical-data-report
+        path: github-report.json
