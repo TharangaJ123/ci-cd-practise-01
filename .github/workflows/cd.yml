@@ -26,5 +26,24 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
+        push: false
+        tags: ${{ secrets.DOCKER_USERNAME }}/simple-node-app:latest
+        load: true
+
+    - name: Run Truvy vulnerability Scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: '${{ secrets.DOCKER_USERNAME }}/simple-node-app:latest'
+        format: 'table'
+        exit-code: '1' # if there is an unfixed vulnerability pipeline will be failed.
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH' # failed only for High and Critical vulnerabilities. Medium and Low vulnerabilities will be ignored.
+
+    - name: Push Docker image
+      # if scan pass, this step will be executed
+      uses: docker/build-push-action@v5
+      with:
+        context: .
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/simple-node-app:latest
