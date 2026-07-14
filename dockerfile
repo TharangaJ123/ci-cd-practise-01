@@ -18,8 +18,8 @@ COPY getData.js ./
 COPY package.json ./
 # (Do not copy package-lock.json or dev folders)
 
-# Upgrade global npm to fix vulnerabilities in the base image's npm installation
-RUN npm install -g npm@latest
+# Remove global npm to eliminate vulnerabilities since it's not needed to run the app
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
 
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
