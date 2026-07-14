@@ -17,5 +17,9 @@ COPY index.js ./
 COPY getData.js ./
 COPY package.json ./
 # (Do not copy package-lock.json or dev folders)
+
+# Upgrade global npm to fix vulnerabilities in the base image's npm installation
+RUN npm install -g npm@latest
+
 EXPOSE 3000
 CMD ["npm", "start"]
