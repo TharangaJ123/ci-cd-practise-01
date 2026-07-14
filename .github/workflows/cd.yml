@@ -38,7 +38,7 @@ jobs:
         output: 'trivy-report.txt' # out will be saved on a txt file
         exit-code: '1' # if there is an unfixed vulnerability pipeline will be failed.
         ignore-unfixed: true
-        vuln-type: 'os,library'
+        vuln-type: 'library'
         severity: 'CRITICAL,HIGH' # failed only for High and Critical vulnerabilities. Medium and Low vulnerabilities will be ignored.
 
     - name: Upload Trivy Security Report
