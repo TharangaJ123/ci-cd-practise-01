@@ -43,6 +43,7 @@ jobs:
 
     - name: Upload Trivy Security Report
       if: always() # if scan fali and stopped the pipeline, output will be saved on txt report
+      uses: actions/upload-artifact@v4
       with:
         name: trivy-security-report
         path: trivy-report.txt
