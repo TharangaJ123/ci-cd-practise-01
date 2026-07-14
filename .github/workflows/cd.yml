@@ -35,10 +35,17 @@ jobs:
       with:
         image-ref: '${{ secrets.DOCKER_USERNAME }}/simple-node-app:latest'
         format: 'table'
+        output: 'trivy-report.txt' # out will be saved on a txt file
         exit-code: '1' # if there is an unfixed vulnerability pipeline will be failed.
         ignore-unfixed: true
         vuln-type: 'os,library'
         severity: 'CRITICAL,HIGH' # failed only for High and Critical vulnerabilities. Medium and Low vulnerabilities will be ignored.
+
+    - name: Upload Trivy Security Report
+      if: always() # if scan fali and stopped the pipeline, output will be saved on txt report
+      with:
+        name: trivy-security-report
+        path: trivy-report.txt
 
     - name: Push Docker image
       # if scan pass, this step will be executed
